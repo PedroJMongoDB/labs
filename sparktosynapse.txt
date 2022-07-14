@@ -1,0 +1,15 @@
+//Configure and submit the request to write to Synapse Dedicated SQL Pool (note - default SaveMode is set to ErrorIfExists)
+//Sample below is using AAD-based authentication approach; See further examples to leverage SQL Basic auth.
+readDF.
+    write.
+    //Configure required configurations.
+    options(writeOptionsWithAADAuth).
+    //Choose a save mode that is apt for your use case.
+    mode(SaveMode.Overwrite).
+    synapsesql(tableName = "<database_name>.<schema_name>.<table_name>", 
+                //For external table type value is Constants.EXTERNAL
+                tableType = Constants.INTERNAL, 
+                //Optional parameter that is used to specify external table's base folder; defaults to `database_name/schema_name/table_name`
+                location = None, 
+                //Optional parameter to receive a callback.
+                callBackHandle = Some(callBackFunctionToReceivePostWriteMetrics))
